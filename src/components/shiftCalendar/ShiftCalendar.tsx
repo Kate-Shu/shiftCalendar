@@ -12,6 +12,7 @@ import {
   Avatar,
   Box,
   useTheme,
+  Container,
 } from "@mui/material";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -19,6 +20,7 @@ import { startOfWeek, addDays, format, subWeeks, addWeeks } from "date-fns";
 import "./ShiftCalendar.css";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 
 // Employee and Event types
 interface Employee {
@@ -34,7 +36,7 @@ interface Event {
   title: string;
   hours: number;
 }
-// TODO if hourses of event are not nesessary then delete hourses and everythink related to it
+// TODO if hours of event are not nesessary then delete hours and everythink related to it
 
 // Generate a week (starting from Monday)
 const generateWeekDates = (selectedDate: Date): Date[] => {
@@ -222,52 +224,57 @@ const ShiftCalendar: React.FC = () => {
     <>
       {/* Week Selector */}
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <Box style={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleTodayClick}
-            style={{ marginLeft: "10px" }}
-          >
-            Today
-          </Button>
-          <IconButton onClick={handlePrevWeek} aria-label="Next week">
-            <ArrowBackIosIcon />
-          </IconButton>
-          <IconButton onClick={handleNextWeek} aria-label="Previous week">
-            <ArrowForwardIosIcon />
-          </IconButton>
-          <DatePicker
-            label={getWeekRange(selectedDate)}
-            value={selectedDate}
-            onChange={(newDate) => {
-              if (newDate) setSelectedDate(newDate);
-            }}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={openAddEmployeeModal}
-            style={{ marginLeft: "10px" }}
-          >
-            Add Employee
-          </Button>
-        </Box>
+        <Container sx={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
+          {/*  */}
+          <Box>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleTodayClick}
+              sx={{ marginLeft: "10px" }}
+            >
+              Today
+            </Button>
+            <IconButton onClick={handlePrevWeek} aria-label="Next week">
+              <ArrowBackIosIcon />
+            </IconButton>
+            <IconButton onClick={handleNextWeek} aria-label="Previous week">
+              <ArrowForwardIosIcon />
+            </IconButton>
+            <DatePicker
+              label={getWeekRange(selectedDate)}
+              value={selectedDate}
+              onChange={(newDate) => {
+                if (newDate) setSelectedDate(newDate);
+              }}
+            />
+          </Box>
+          <Box>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={openAddEmployeeModal}
+              sx={{ marginLeft: "10px" }}
+            >
+              Add Employee
+            </Button>
+          </Box>
+        </Container>
       </LocalizationProvider>
 
       {/* Calendar */}
       <Grid container spacing={0} className="calendar" >
         {/* Header Row: Dates */}
         <Grid item xs={2}>
-          <Box style={{
+          <Box sx={{
             padding: "10px",
             border: "1px solid #ddd",
             backgroundColor: "#f0f0f0",
           }}>
             <Typography
               variant="body1"
-              align="center"
-              style={{
+              align="left"
+              sx={{
                 fontWeight: "bold",
               }}
             >
@@ -276,16 +283,16 @@ const ShiftCalendar: React.FC = () => {
           </Box>
         </Grid>
         {dates.map((date) => (
-          <Grid item xs={1.4} key={date.toISOString()} style={{
+          <Grid item xs={1.4} key={date.toISOString()} sx={{
             border: "1px solid #ddd",
           }}>
-            <Box style={{
+            <Box sx={{
               backgroundColor: isToday(date) ? theme.palette.secondary.main : "transparent",
               padding: "5px",
               borderRadius: isToday(date) ? "5px" : "0",
             }}>
               <Typography variant="subtitle1" align="center" fontWeight="bold"
-                style={{
+                sx={{
                   color: isToday(date) ? "white" : "black",
 
                 }}>
@@ -299,8 +306,8 @@ const ShiftCalendar: React.FC = () => {
         <Grid item xs={2}>
           <Typography
             variant="body1"
-            align="center"
-            style={{
+            align="left"
+            sx={{
               backgroundColor: "#f0f0f0",
               fontWeight: "bold",
               padding: "10px",
@@ -311,7 +318,7 @@ const ShiftCalendar: React.FC = () => {
           </Typography>
         </Grid>
         {dates.map((date) => (
-          <Grid item xs={1.4} key={`${date.toISOString()}-notes`} style={{
+          <Grid item xs={1.4} key={`${date.toISOString()}-notes`} sx={{
             border: "1px solid #ddd",
           }}>
             <TextField
@@ -339,13 +346,58 @@ const ShiftCalendar: React.FC = () => {
             />
           </Grid>
         ))}
-
+        {/* Estem summary*/}
+        <Box sx={{
+          width: '100%',
+          padding: '20px 0 20px 10px',
+          display: 'flex',
+          flexDirection: 'row'
+        }}>
+          <Typography
+            variant="body1"
+            align="left"
+            sx={{
+              fontWeight: "700",
+              fontSize: '18px',
+              lineHeight: '24px',
+              marginRight: '10px',
+            }}
+          >
+            estem
+          </Typography>
+          <Typography
+            variant="body1"
+            align="left"
+            sx={{
+              fontWeight: "light",
+              fontSize: '18px',
+              lineHeight: '24px',
+              marginRight: '10px',
+            }}
+          >
+            {calculateWeeklyHours()} hrs
+          </Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+            <PeopleAltOutlinedIcon />
+            <Typography
+              variant="body1"
+              align="left"
+              sx={{
+                fontWeight: "light",
+                fontSize: '18px',
+                lineHeight: '24px',
+              }}
+            >
+              {employees.length}
+            </Typography>
+          </Box>
+        </Box>
         {/* Employee Rows */}
         {employees.map((employee) => (
           <React.Fragment key={employee.id}>
             <Grid item xs={2}>
               <Box
-                style={{
+                sx={{
                   display: "flex",
                   alignItems: "center",
                   padding: "10px",
@@ -354,7 +406,7 @@ const ShiftCalendar: React.FC = () => {
                 }}
               >
                 <Avatar
-                  style={{
+                  sx={{
                     backgroundColor: theme.palette.primary.main,
                     color: "white",
                     marginRight: "7px",
@@ -362,7 +414,7 @@ const ShiftCalendar: React.FC = () => {
                 >
                   {getInitials(employee.name)}
                 </Avatar>
-                <Box style={{
+                <Box sx={{
                   display: "flex",
                   flexDirection: "column",
                 }}>
@@ -381,7 +433,7 @@ const ShiftCalendar: React.FC = () => {
                 item
                 xs={1.4}
                 key={`${employee.id}-${date.toISOString()}`}
-                style={{
+                sx={{
                   border: "1px solid #ddd",
                   textAlign: "center",
                   cursor: "pointer",
@@ -398,7 +450,7 @@ const ShiftCalendar: React.FC = () => {
                   .map((event) => (
                     <Box
                       key={event.id}
-                      style={{
+                      sx={{
                         backgroundColor: theme.palette.secondary.light,
                         color: "bla",
                         fontSize: "12px",
