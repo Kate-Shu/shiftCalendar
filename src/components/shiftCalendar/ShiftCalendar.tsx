@@ -11,6 +11,7 @@ import {
   IconButton,
   Avatar,
   Box,
+  useTheme,
 } from "@mui/material";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -44,10 +45,18 @@ const formatToISODate = (date: Date): string => {
   return date.toISOString().split("T")[0]; // Returns 'YYYY-MM-DD'
 };
 const ShiftCalendar: React.FC = () => {
+  const theme = useTheme();
   const [employees, setEmployees] = useState<Employee[]>([
-    { id: "1", name: "Kate" },
-    { id: "2", name: "Jon" },
-    { id: "3", name: "Bob" },
+    { id: "1", name: "Jon Snow" },
+    { id: "2", name: "Daenerys Targaryen" },
+    { id: "3", name: "Arya Stark" },
+    { id: "4", name: "Tyrion Lannister" },
+    { id: "5", name: "Cersei Lannister" },
+    { id: "6", name: "Sansa Stark" },
+    { id: "7", name: "Bran Stark" },
+    { id: "8", name: "Jaime Lannister" },
+    { id: "9", name: "Brienne of Tarth" },
+    { id: "10", name: "Sandor Clegane" },
   ]);
   const [events, setEvents] = useState<Event[]>([]);
   const [addEventModalOpen, setAddEventModalOpen] = useState(false);
@@ -271,7 +280,7 @@ const ShiftCalendar: React.FC = () => {
             border: "1px solid #ddd",
           }}>
             <Box style={{
-              backgroundColor: isToday(date) ? "#007bff" : "transparent",
+              backgroundColor: isToday(date) ? theme.palette.secondary.main : "transparent",
               padding: "5px",
               borderRadius: isToday(date) ? "5px" : "0",
             }}>
@@ -346,7 +355,7 @@ const ShiftCalendar: React.FC = () => {
               >
                 <Avatar
                   style={{
-                    backgroundColor: "#007bff",
+                    backgroundColor: theme.palette.primary.main,
                     color: "white",
                     marginRight: "7px",
                   }}
@@ -390,8 +399,8 @@ const ShiftCalendar: React.FC = () => {
                     <Box
                       key={event.id}
                       style={{
-                        backgroundColor: "#007bff",
-                        color: "white",
+                        backgroundColor: theme.palette.secondary.light,
+                        color: "bla",
                         fontSize: "12px",
                         minHeight: '50%',
                         height: '100%',
@@ -448,7 +457,7 @@ const ShiftCalendar: React.FC = () => {
           <Button onClick={() => setAddEventModalOpen(false)} color="secondary">
             Cancel
           </Button>
-          <Button onClick={handleAddEvent} color="primary" variant="contained">
+          <Button onClick={handleAddEvent} color="secondary" variant="contained">
             Add Event
           </Button>
         </DialogActions>
