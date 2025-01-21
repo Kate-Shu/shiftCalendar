@@ -6,7 +6,7 @@
     "jsx": "react-jsx",
 
     /* Bundler mode */
-    "moduleResolution": "Node",
+    "moduleResolution": "node",
     "noEmit": true,
     "skipLibCheck": true,
     "useDefineForClassFields": true,
@@ -14,6 +14,7 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "esModuleInterop": true,
 
     /* Linting */
     "strict": true,
@@ -26,5 +27,5 @@
       "@/*": ["src/*"],
     }
   },
-  "include": ["src"],
+  "include": ["src", "node_modules/@daypilot/daypilot-lite-react/*"]
 }

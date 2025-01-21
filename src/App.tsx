@@ -1,6 +1,6 @@
+import ShiftCalendarPage from './ShiftCalendarPage'
+
 const App = () => {
- return (
-  <div>Hello Calendar!</div>
- )
+  return <ShiftCalendarPage />
 }
 export default App
