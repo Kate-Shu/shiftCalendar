@@ -61,44 +61,12 @@ const ShiftCalendar: React.FC = () => {
     }
   };
 
-  // const openEventModal = (employee: EmployeeType, date: Date) => {
-  //   setSelectedEmployee(employee);
-  //   setEventStartDate(formatToISODate(date));
-  //   setEventEndDate(formatToISODate(date));
-  //   setAddEventModalOpen(true);
-  // };
-
-  // const handleAddEvent = () => {
-  //   if (selectedEmployee && eventTitle && eventStartDate && eventEndDate && eventHours) {
-  //     const startDate = new Date(eventStartDate);
-  //     const endDate = new Date(eventEndDate);
-
-  //     setEvents([
-  //       ...events,
-  //       {
-  //         id: `${selectedEmployee.id}-${startDate.toISOString()}`,
-  //         employeeId: selectedEmployee.id,
-  //         startDate,
-  //         endDate,
-  //         title: eventTitle,
-  //         hours: eventHours
-  //       },
-  //     ]);
-
-  //     setAddEventModalOpen(false);
-  //     setEventTitle("");
-  //     setEventStartDate("");
-  //     setEventEndDate("");
-  //     setEventHours(0);
-  //   }
-  // };
-
+  //CommandBar
   // Jump to previous week
   const handlePrevWeek = () => {
     setSelectedDate((prevDate) => subWeeks(prevDate, 1));
   };
 
-  //CommandBar
   // Jump to next week
   const handleNextWeek = () => {
     setSelectedDate((prevDate) => addWeeks(prevDate, 1));

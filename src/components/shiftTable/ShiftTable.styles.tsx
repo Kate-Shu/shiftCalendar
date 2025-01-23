@@ -1,18 +1,40 @@
 import { styled } from '@mui/material';
 import { Box, Grid, Typography, TextField, Avatar } from '@mui/material';
 
-export const StyledWeekHeader = styled(Box)(() => ({
+export const StyledWeekHeader = styled(Box)(({ theme }) => ({
+ display: 'flex',
+ flexDirection: 'row',
  padding: '10px',
  border: '1px solid #ddd',
- backgroundColor: '#f0f0f0',
+ backgroundColor: theme.palette.background.default
 }));
 
-export const StyledDateCell = styled(Grid)(() => ({
+export const StyledWeekTitleGrid = styled(Grid)(() => ({
+ position: "sticky",
+ top: 0,
+ zIndex: 3,
+}));
+
+export const StyledDateCellDates = styled(Grid)(({ theme }) => ({
  border: '1px solid #ddd',
+ position: "sticky",
+ top: 0,
+ zIndex: 3,
+ '&:hover': {
+  backgroundColor: theme.palette.action.hover,
+ },
+ backgroundColor: theme.palette.background.default,
+}));
+
+export const StyledDateCell = styled(Grid)(({ theme }) => ({
+ border: '1px solid #ddd',
+ position: "sticky",
+ top: 0,
+ zIndex: 2,
+ backgroundColor: theme.palette.background.default,
 }));
 
 export const StyledNotesTitle = styled(Typography)(() => ({
- backgroundColor: '#f0f0f0',
  fontWeight: 'bold',
  padding: '10px',
  border: '1px solid #ddd',
@@ -24,9 +46,6 @@ export const StyledNoteInput = styled(TextField)(() => ({
  backgroundColor: 'transparent',
  border: 'none',
  transition: 'background-color 0.3s ease',
- '&:hover': {
-  backgroundColor: '#f0f0f0',
- },
  '& .MuiInputBase-input': {
   padding: 0,
  },
@@ -59,6 +78,13 @@ export const StyledEmployeesSummaryText = styled(Typography)(() => ({
  lineHeight: '24px',
 }));
 
+export const StyledHoursText = styled(Typography)(() => ({
+ fontWeight: 'light',
+ fontSize: '16px',
+ lineHeight: '24px',
+ marginLeft: '5px'
+}));
+
 export const StyledNameWrapper = styled(Box)(() => ({
  display: "flex",
  alignItems: "center",
@@ -78,11 +104,14 @@ export const StyledNameHourseWrapper = styled(Box)(() => ({
  flexDirection: "column",
 }));
 
-export const StyledEventCell = styled(Grid)(() => ({
+export const StyledEventCell = styled(Grid)(({ theme }) => ({
  border: "1px solid #ddd",
  textAlign: "center",
  cursor: "pointer",
  padding: "10px",
+ '&:hover': {
+  backgroundColor: theme.palette.action.hover,
+ },
 }));
 
 export const StyledEventTitleWrapper = styled(Box)(({ theme }) => ({

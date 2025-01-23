@@ -1,5 +1,5 @@
 import { CssBaseline, ThemeProvider } from '@mui/material'
-import ShiftCalendarPage from './ShiftCalendarPage'
+import ShiftCalendarPage from './pages/ShiftCalendarPage'
 import theme from './themes/CssVariableTheme'
 
 const App = () => {

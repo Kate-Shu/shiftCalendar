@@ -4,7 +4,7 @@ import React from "react"
 import { getInitials } from "@/utils/common";
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import { isSameOrBetweenDates, isToday } from "@/utils/dateUtils";
-import { StyledAvatar, StyledDateCell, StyledEstemSummaryText, StyledEventCell, StyledEventTitleWrapper, StyledHoursSummaryText, StyledNameHourseWrapper, StyledNameWrapper, StyledNoteInput, StyledNotesTitle, StyledSummaryContainer, StyledWeekHeader } from "./ShiftTable.styles";
+import { StyledAvatar, StyledDateCell, StyledDateCellDates, StyledEstemSummaryText, StyledEventCell, StyledEventTitleWrapper, StyledHoursSummaryText, StyledHoursText, StyledNameHourseWrapper, StyledNameWrapper, StyledNoteInput, StyledNotesTitle, StyledSummaryContainer, StyledWeekHeader, StyledWeekTitleGrid } from "./ShiftTable.styles";
 
 type ShiftTableTypeProps = {
   calculateWeeklyHours: () => number,
@@ -26,38 +26,40 @@ export const ShiftTable: React.FC<ShiftTableTypeProps> = ({
 }) => {
   const theme = useTheme();
   return (
-    <Grid container spacing={0} className="calendar">
-      <Grid item xs={2}>
+    <Grid container spacing={0} className="calendar" sx={{ position: 'relative' }}>
+      <StyledWeekTitleGrid item xs={2} >
         <StyledWeekHeader>
           <Typography
             variant="body1"
             align="left"
-            sx={{ fontWeight: "bold" }}
+            sx={{
+              fontWeight: "bold",
+            }}
           >
-            Week: {calculateWeeklyHours()} hrs
+            Week:
           </Typography>
+          <StyledHoursText>{calculateWeeklyHours()} hrs</StyledHoursText>
         </StyledWeekHeader>
-      </Grid>
+      </StyledWeekTitleGrid>
       {/* week days */}
       {dates.map((date) => (
-        <StyledDateCell item xs={1.4} key={date.toISOString()}>
+        <StyledDateCellDates item xs={1.4} key={date.toISOString()}>
           <Box sx={{
-            backgroundColor: isToday(date) ? theme.palette.secondary.main : "transparent",
-            padding: "5px",
-            borderRadius: isToday(date) ? "5px" : "0",
+            backgroundColor: isToday(date) ? theme.palette.secondary.light : "transparent",
+            padding: "8px",
+            height: "100%",
           }}>
             <Typography variant="subtitle1" align="center" fontWeight="bold"
-              sx={{
-                color: isToday(date) ? "white" : "black",
-              }}>
-              {date.toLocaleDateString("de-DE", { weekday: "short", day: "numeric" })}
+              sx={{ height: "100%" }}>
+              {date.toLocaleDateString("en-CA", { weekday: "short", day: "numeric" })}
             </Typography>
           </Box>
-        </StyledDateCell>
+        </StyledDateCellDates>
       ))}
 
+
       {/* Notes */}
-      <Grid item xs={2}>
+      <Grid item xs={2} sx={{ zIndex: '2' }}>
         <StyledNotesTitle
           variant="body1"
           align="left">
@@ -65,12 +67,17 @@ export const ShiftTable: React.FC<ShiftTableTypeProps> = ({
         </StyledNotesTitle>
       </Grid>
       {dates.map((date) => (
-        <StyledDateCell item xs={1.4} key={`${date.toISOString()}-notes`}>
+        <StyledDateCell item xs={1.4} key={`${date.toISOString()}-notes`} >
           <StyledNoteInput
             fullWidth
             variant="standard"
             size="small"
             onChange={(e) => handleNoteChange(date, e.target.value)}
+            sx={{
+              '&:hover': {
+                backgroundColor: theme.palette.action.hover,
+              },
+            }}
             InputProps={{
               disableUnderline: true,
               sx: {
