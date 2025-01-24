@@ -1,10 +1,11 @@
 import { EmployeeType, EventType } from "@/types/AppType";
-import { Box, Grid, Typography, useTheme } from "@mui/material"
+import { Box, Button, Grid, Typography, useTheme } from "@mui/material"
 import React from "react"
 import { getInitials } from "@/utils/common";
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import { isSameOrBetweenDates, isToday } from "@/utils/dateUtils";
-import { StyledAvatar, StyledDateCell, StyledDateCellDates, StyledEstemSummaryText, StyledEventCell, StyledEventTitleWrapper, StyledHoursSummaryText, StyledHoursText, StyledNameHourseWrapper, StyledNameWrapper, StyledNoteInput, StyledNotesTitle, StyledSummaryContainer, StyledWeekHeader, StyledWeekTitleGrid } from "./ShiftTable.styles";
+import { StyledAvatar, StyledDateCell, StyledDateCellDates, StyledEstemSummaryText, StyledEventCell, StyledEventTitleWrapper, StyledHoursSummaryText, StyledHoursText, StyledNameHourseWrapper, StyledNameWrapper, StyledNoteInput, StyledNotesTitle, StyledSummaryContainer, StyledSummaryInfo, StyledWeekHeader, StyledWeekTitleGrid } from "./ShiftTable.styles";
+import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
 
 type ShiftTableTypeProps = {
   calculateWeeklyHours: () => number,
@@ -13,7 +14,9 @@ type ShiftTableTypeProps = {
   onOpenEventDialog: (employee: EmployeeType, date: Date) => void,
   employees: EmployeeType[];
   events: EventType[];
-  handleNoteChange: (date: Date, value: string) => void
+  handleNoteChange: (date: Date, value: string) => void,
+  openEmployeeModal: () => void;
+
 }
 export const ShiftTable: React.FC<ShiftTableTypeProps> = ({
   dates,
@@ -23,6 +26,7 @@ export const ShiftTable: React.FC<ShiftTableTypeProps> = ({
   calculateEmployeeHours,
   onOpenEventDialog,
   handleNoteChange,
+  openEmployeeModal,
 }) => {
   const theme = useTheme();
   return (
@@ -51,13 +55,11 @@ export const ShiftTable: React.FC<ShiftTableTypeProps> = ({
           }}>
             <Typography variant="subtitle1" align="center" fontWeight="bold"
               sx={{ height: "100%" }}>
-              {date.toLocaleDateString("en-CA", { weekday: "short", day: "numeric" })}
+              {date.toLocaleDateString("en-GB", { weekday: "short", day: "numeric" })}
             </Typography>
           </Box>
         </StyledDateCellDates>
       ))}
-
-
       {/* Notes */}
       <Grid item xs={2} sx={{ zIndex: '2' }}>
         <StyledNotesTitle
@@ -91,24 +93,36 @@ export const ShiftTable: React.FC<ShiftTableTypeProps> = ({
 
       {/* Estem summary*/}
       <StyledSummaryContainer>
-        <StyledEstemSummaryText
-          variant="body1"
-          align="left">
-          estem
-        </StyledEstemSummaryText>
-        <StyledHoursSummaryText
-          variant="body1"
-          align="left">
-          {calculateWeeklyHours()} hrs
-        </StyledHoursSummaryText>
-        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-          <PeopleAltOutlinedIcon />
-          <Typography
+        <StyledSummaryInfo>
+          <StyledEstemSummaryText
             variant="body1"
             align="left">
-            {employees.length}
-          </Typography>
-        </Box>
+            estem
+          </StyledEstemSummaryText>
+          <StyledHoursSummaryText
+            variant="body1"
+            align="left">
+            {calculateWeeklyHours()} hrs
+          </StyledHoursSummaryText>
+          <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+            <PeopleAltOutlinedIcon />
+            <Typography
+              variant="body1"
+              align="left">
+              {employees.length}
+            </Typography>
+          </Box>
+        </StyledSummaryInfo>
+        {/* <Box> */}
+        <Button
+          variant="contained"
+          startIcon={<GroupAddOutlinedIcon />}
+          color="primary"
+          onClick={openEmployeeModal}
+        >
+          Add Employee
+        </Button>
+        {/* </Box> */}
       </StyledSummaryContainer>
 
       {/* Employee Rows */}

@@ -53,7 +53,14 @@ export const StyledNoteInput = styled(TextField)(() => ({
 
 export const StyledSummaryContainer = styled(Box)(() => ({
  width: '100%',
- padding: '20px 0 20px 10px',
+ padding: '30px 16px 30px 0px',
+ display: 'flex',
+ justifyContent: 'space-between',
+ alignItems: 'center',
+
+}));
+
+export const StyledSummaryInfo = styled(Box)(() => ({
  display: 'flex',
  flexDirection: 'row',
 }));

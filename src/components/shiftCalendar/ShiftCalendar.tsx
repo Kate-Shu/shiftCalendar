@@ -115,7 +115,6 @@ const ShiftCalendar: React.FC = () => {
         handleTodayButtonClick={handleTodayButtonClick}
         handlePrevWeek={handlePrevWeek}
         handleNextWeek={handleNextWeek}
-        openEmployeeModal={() => setEmployeeModalOpen(true)}
       />
       <ShiftTable
         dates={weekDays}
@@ -125,6 +124,7 @@ const ShiftCalendar: React.FC = () => {
         calculateEmployeeHours={calculateEmployeeHours}
         onOpenEventDialog={openEventDialog}
         handleNoteChange={handleNoteChange}
+        openEmployeeModal={() => setEmployeeModalOpen(true)}
       />
       <EventDialog
         openEventDialog={eventDialog.open}

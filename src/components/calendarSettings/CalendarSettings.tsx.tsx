@@ -1,10 +1,10 @@
 import { Container, Typography } from "@mui/material"
 
-export const ShiftRequest = () => {
+export const CalendarSettings = () => {
  return (
   <Container sx={{ display: 'flex', justifyContent: 'center' }}>
    <Typography variant="h5">
-    Requests
+    Settings
    </Typography>
   </Container>
  )

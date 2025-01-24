@@ -26,7 +26,6 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onTabChange }) => {
      <StyledTextEstemWrapper>
       <StyledTextEstem variant="h5">estem</StyledTextEstem>
      </StyledTextEstemWrapper>
-
      <StyledTabs value={currentTab} onChange={handleTabChange} textColor="inherit"
       TabIndicatorProps={{
        style: {
@@ -36,6 +35,7 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onTabChange }) => {
      >
       <Tab label="schedule" value="schedule" />
       <Tab label="request" value="request" />
+      <Tab label="settings" value="settings" />
      </StyledTabs>
     </Toolbar>
    </StyledAppBar>
