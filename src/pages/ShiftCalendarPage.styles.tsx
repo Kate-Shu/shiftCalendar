@@ -1,15 +1,9 @@
-import { styled, Container } from '@mui/material'
+import { styled, Box } from '@mui/material'
 
-export const StyledContainer = styled(Container)(() => ({
+export const StyledContainer = styled(Box)(() => ({
  marginTop: "2rem",
  backgroundColor: '#f4f1f0',
  zIndex: 2,
  position: "relative",
-
- '& .MuiContainer-root': {
-  paddingLeft: '5px',
-  paddingRight: '0',
- },
-
-
+ paddingTop: '15px'
 }))

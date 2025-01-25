@@ -1,5 +1,6 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material"
+import { DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material"
 import { useState } from "react";
+import { StyledAddButton, StyledCancelButton, StyledDialog } from "./EmployeeDialog.styles";
 
 type EmployeeDialogProps = {
  openDialog: boolean;
@@ -21,11 +22,9 @@ export const EmployeeDialog: React.FC<EmployeeDialogProps> = ({
  };
 
  return (
-  <Dialog
+  <StyledDialog
    open={openDialog}
    onClose={onCloseDialog}
-  // disableEnforceFocus
-  // disableAutoFocus
   >
    <DialogTitle>Add Employee</DialogTitle>
    <DialogContent>
@@ -38,16 +37,19 @@ export const EmployeeDialog: React.FC<EmployeeDialogProps> = ({
     />
    </DialogContent>
    <DialogActions>
-    <Button onClick={onCloseDialog}
-     color="secondary">
+    <StyledCancelButton
+     onClick={onCloseDialog}
+     color="secondary"
+    >
      Cancel
-    </Button>
-    <Button
+    </StyledCancelButton>
+    <StyledAddButton
      onClick={handleAddEmployee}
-     color="primary" variant="contained">
+     color="primary" variant="contained"
+    >
      Add Employee
-    </Button>
+    </StyledAddButton>
    </DialogActions>
-  </Dialog>
+  </StyledDialog>
  )
 }

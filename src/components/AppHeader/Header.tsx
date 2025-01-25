@@ -26,7 +26,7 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onTabChange }) => {
      <StyledTextEstemWrapper>
       <StyledTextEstem variant="h5">estem</StyledTextEstem>
      </StyledTextEstemWrapper>
-     <StyledTabs value={currentTab} onChange={handleTabChange} textColor="inherit"
+     <StyledTabs value={currentTab} onChange={handleTabChange}
       TabIndicatorProps={{
        style: {
         backgroundColor: theme.palette.text.secondary

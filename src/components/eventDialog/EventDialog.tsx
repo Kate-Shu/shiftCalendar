@@ -5,7 +5,7 @@ type EventDetailsTypes = {
  title: string;
  startDate: string;
  endDate: string;
- hours: number;
+ hours: string;
  selectedEmployee: EmployeeType | null;
 }
 
@@ -58,7 +58,7 @@ export const EventDialog: React.FC<EventDialogPropsType> = ({
      label="Hours"
      type="number"
      value={hours}
-     onChange={(e) => onChange('hours', Number(e.target.value))}
+     onChange={(e) => onChange('hours', e.target.value ? Number(e.target.value) : '')}
      margin="dense"
     />
    </DialogContent>
@@ -66,7 +66,7 @@ export const EventDialog: React.FC<EventDialogPropsType> = ({
     <Button onClick={onClose} color="secondary">
      Cancel
     </Button>
-    <Button onClick={onAddEvent} color="secondary" variant="contained">
+    <Button onClick={onAddEvent} color="primary" variant="contained">
      Add Event
     </Button>
    </DialogActions>

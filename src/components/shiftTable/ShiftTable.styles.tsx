@@ -53,11 +53,10 @@ export const StyledNoteInput = styled(TextField)(() => ({
 
 export const StyledSummaryContainer = styled(Box)(() => ({
  width: '100%',
- padding: '30px 16px 30px 0px',
+ padding: '30px 0px 30px 0px',
  display: 'flex',
  justifyContent: 'space-between',
  alignItems: 'center',
-
 }));
 
 export const StyledSummaryInfo = styled(Box)(() => ({
@@ -113,17 +112,16 @@ export const StyledNameHourseWrapper = styled(Box)(() => ({
 
 export const StyledEventCell = styled(Grid)(({ theme }) => ({
  border: "1px solid #ddd",
- textAlign: "center",
+ textAlign: "left",
  cursor: "pointer",
- padding: "10px",
  '&:hover': {
   backgroundColor: theme.palette.action.hover,
  },
 }));
 
 export const StyledEventTitleWrapper = styled(Box)(({ theme }) => ({
- backgroundColor: theme.palette.secondary.light,
- color: "black",
+ backgroundColor: '#ddd',
+ color: theme.palette.secondary.contrastText,
  fontSize: "12px",
  minHeight: '50%',
  height: '100%',

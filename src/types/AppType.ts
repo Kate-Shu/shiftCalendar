@@ -9,5 +9,5 @@ export type EventType = {
   startDate: Date;
   endDate: Date;
   title: string;
-  hours: number;
+  hours: string;
 }

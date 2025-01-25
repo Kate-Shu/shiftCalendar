@@ -31,26 +31,29 @@ export const CommandBar: React.FC<WeekSelectorTypeProps> = ({
  const [printOption, setPrintOption] = useState('print');
  const [filter, setFilter] = useState('filter');
  const [view, setView] = useState('view');
- console.log(printOption);
 
  return (
   <>
    <LocalizationProvider dateAdapter={AdapterDateFns}>
     <StyledContainer>
-     <Box>
+     <Box sx={{ display: 'flex', alignItems: 'center' }}>
       <Button
        variant="contained"
        color="primary"
        onClick={handleTodayButtonClick}
+       sx={{ marginRight: '20px', height: '36px', paddingRight: '40px', paddingLeft: '40px' }}
       >
        Today
       </Button>
-      <IconButton onClick={handlePrevWeek} aria-label="Next week">
-       <ArrowBackIosIcon />
-      </IconButton>
-      <IconButton onClick={handleNextWeek} aria-label="Previous week">
-       <ArrowForwardIosIcon />
-      </IconButton>
+      <Box sx={{ display: 'flex', marginRight: '20px' }}>
+       <IconButton onClick={handlePrevWeek} aria-label="Next week">
+        <ArrowBackIosIcon />
+       </IconButton>
+       <IconButton onClick={handleNextWeek} aria-label="Previous week">
+        <ArrowForwardIosIcon />
+       </IconButton>
+      </Box>
+
       <DatePicker
        label={getWeekRange(selectedDate)}
        value={selectedDate}

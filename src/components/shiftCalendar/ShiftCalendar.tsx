@@ -4,10 +4,10 @@ import { subWeeks, addWeeks } from "date-fns";
 import { EmployeeType, EventType } from "@/types/AppType";
 import employeesMock from '@/utils/mocks/EmployeesMock.json'
 import { CommandBar } from "../commandBar/CommandBar";
-import { EventDialog } from "../dialogs/EventDialog";
-import { EmployeeDialog } from "../dialogs/EmployeeDialog";
 import { ShiftTable } from "../shiftTable/ShiftTable";
-import { generateWeekDates, getWeekRange, formatToISODate } from "@/utils/dateUtils";
+import { generateWeekDates, getWeekRange, formatDate } from "@/utils/dateUtils";
+import { EventDialog } from "../eventDialog/EventDialog";
+import { EmployeeDialog } from "../employeeDialog/EmployeeDialog";
 
 const ShiftCalendar: React.FC = () => {
   const [events, setEvents] = useState<EventType[]>([]);
@@ -24,23 +24,22 @@ const ShiftCalendar: React.FC = () => {
     title: "",
     startDate: "",
     endDate: "",
-    hours: 0,
+    hours: '',
     selectedEmployee: null as EmployeeType | null,
   });
 
   const openEventDialog = (employee: EmployeeType, date: Date) => {
+    console.log('formatDate(date)', formatDate(date))
     setEventDialog({
       open: true,
       title: "",
-      startDate: formatToISODate(date),
-      endDate: formatToISODate(date),
-      hours: 0,
+      startDate: formatDate(date),
+      endDate: formatDate(date),
+      hours: '',
       selectedEmployee: employee,
     });
   };
-
   const handleAddEvent = () => {
-    debugger
     const { selectedEmployee, title, startDate, endDate, hours } = eventDialog;
     if (selectedEmployee && title && startDate && endDate && hours) {
       const startDateObj = new Date(startDate);
@@ -61,13 +60,9 @@ const ShiftCalendar: React.FC = () => {
     }
   };
 
-  //CommandBar
-  // Jump to previous week
   const handlePrevWeek = () => {
     setSelectedDate((prevDate) => subWeeks(prevDate, 1));
   };
-
-  // Jump to next week
   const handleNextWeek = () => {
     setSelectedDate((prevDate) => addWeeks(prevDate, 1));
   };
@@ -85,7 +80,7 @@ const ShiftCalendar: React.FC = () => {
           event.title.toLowerCase() !== "vocation" &&
           event.title.toLowerCase() !== "sick leave"
       )
-      .reduce((total, event) => total + event.hours, 0);
+      .reduce((total, event) => total + Number(event.hours), 0);
   };
   // Calculate total hours for all events for a specific employee in the week
   const calculateEmployeeHours = (employeeId: string): number => {
@@ -95,9 +90,12 @@ const ShiftCalendar: React.FC = () => {
           event.employeeId === employeeId &&
           event.startDate >= weekDays[0] &&
           event.endDate <= weekDays[6]
+
       )
-      .reduce((total, event) => total + event.hours, 0);
+      .reduce((total, event) => total + Number(event.hours), 0);
   };
+
+
   const handleNoteChange = (date: Date, value: string) => {
     const formattedDate = date.toISOString().split("T")[0]; // Format date as YYYY-MM-DD
     setDayNotes((prevNotes) => ({

@@ -37,6 +37,6 @@ export const isSameOrBetweenDates = (currentDate: Date, startDate: Date, endDate
  );
 };
 
-export const formatToISODate = (date: Date): string => {
- return date.toISOString().split("T")[0]; // Returns YYYY-MM-DD
+export const formatDate = (date: Date): string => {
+ return format(date, 'yyyy-MM-dd');
 };
