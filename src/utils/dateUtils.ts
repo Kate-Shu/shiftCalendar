@@ -18,6 +18,19 @@ export const getWeekRange = (date: Date): string => {
  return `${start} - ${end}`;
 };
 
+ export const getEventRange = (startDay: Date, endDay: Date): string => {
+  const start = format(startDay, "d MMM yyyy");
+  const end = format(endDay, "d MMM yyyy");
+
+   if(start === end) {
+    return format(startDay, "d MMM yyyy")
+  } else if (startDay.getMonth() === endDay.getMonth() && startDay.getFullYear() === endDay.getFullYear()) {
+    return `${startDay.getDate()} - ${format(endDay, "d MMM yyyy")}`;
+  } 
+  return `${start} - ${end}`;
+};
+
+
 export const isToday = (date: Date): boolean => {
  const today = new Date();
  return (

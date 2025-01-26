@@ -2,7 +2,9 @@ import { styled } from '@mui/material';
 import { Box, Grid, Typography, TextField, Avatar } from '@mui/material';
 
 export const StyledWeekHeader = styled(Box)(({ theme }) => ({
+ height: '100%',
  display: 'flex',
+ alignItems: 'center',
  flexDirection: 'row',
  padding: '10px',
  border: '1px solid #ddd',
@@ -34,10 +36,14 @@ export const StyledDateCell = styled(Grid)(({ theme }) => ({
  backgroundColor: theme.palette.background.default,
 }));
 
-export const StyledNotesTitle = styled(Typography)(() => ({
- fontWeight: 'bold',
+export const StyledNoteTitleWrapper = styled(Box)(({ theme }) => ({
+ height: '100%',
+ display: 'flex',
+ alignItems: 'center',
+ flexDirection: 'row',
  padding: '10px',
  border: '1px solid #ddd',
+ backgroundColor: theme.palette.background.default
 }));
 
 export const StyledNoteInput = styled(TextField)(() => ({
@@ -99,8 +105,7 @@ export const StyledNameWrapper = styled(Box)(() => ({
  backgroundColor: "#f7f7f7",
 }));
 
-export const StyledAvatar = styled(Avatar)(({ theme }) => ({
- backgroundColor: theme.palette.primary.main,
+export const StyledAvatar = styled(Avatar)(() => ({
  color: 'white',
  marginRight: '7px',
 }));
@@ -114,6 +119,8 @@ export const StyledEventCell = styled(Grid)(({ theme }) => ({
  border: "1px solid #ddd",
  textAlign: "left",
  cursor: "pointer",
+ padding: '5px 0',
+
  '&:hover': {
   backgroundColor: theme.palette.action.hover,
  },
@@ -126,6 +133,20 @@ export const StyledEventTitleWrapper = styled(Box)(({ theme }) => ({
  minHeight: '50%',
  height: '100%',
  display: 'flex',
- justifyContent: 'center',
- alignItems: 'center',
+ flexDirection: 'column',
+ justifyContent: 'flex-start',
+ alignItems: 'start',
+ paddingLeft: '5px'
 }));
+
+export const StyledDateInfoWrapper = styled(Box)(() => ({
+ padding: "8px",
+ height: "100%",
+ display: "flex",
+ flexDirection: "column"
+}));
+export const StyledDailyHoursWrapper = styled(Box)(() => ({
+ display: "flex",
+ justifyContent: 'space-around',
+ alignItems: 'center'
+}))

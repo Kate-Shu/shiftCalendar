@@ -56,7 +56,6 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onTabChange }) => {
      </ListItem>
     </List>
    </StyledDrawer>
-
   </>
  );
 };

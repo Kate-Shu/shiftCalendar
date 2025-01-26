@@ -1,10 +1,10 @@
 import { EmployeeType, EventType } from "@/types/AppType";
 import { Box, Button, Grid, Typography, useTheme } from "@mui/material"
 import React from "react"
-import { calculateDailyHours, countUniqueEmployeesPerDay, getInitials } from "@/utils/common";
+import { countUniqueEmployeesPerDay, generateAvatarBgColor, getInitials } from "@/utils/common";
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
-import { isSameOrBetweenDates, isToday } from "@/utils/dateUtils";
-import { StyledAvatar, StyledDateCell, StyledDateCellDates, StyledEstemSummaryText, StyledEventCell, StyledEventTitleWrapper, StyledHoursSummaryText, StyledHoursText, StyledNameHourseWrapper, StyledNameWrapper, StyledNoteInput, StyledNotesTitle, StyledSummaryContainer, StyledSummaryInfo, StyledWeekHeader, StyledWeekTitleGrid } from "./ShiftTable.styles";
+import { formatDate, getEventRange, isSameOrBetweenDates, isToday } from "@/utils/dateUtils";
+import { StyledAvatar, StyledDailyHoursWrapper, StyledDateCell, StyledDateCellDates, StyledDateInfoWrapper, StyledEstemSummaryText, StyledEventCell, StyledEventTitleWrapper, StyledHoursSummaryText, StyledHoursText, StyledNameHourseWrapper, StyledNameWrapper, StyledNoteInput, StyledNoteTitleWrapper, StyledSummaryContainer, StyledSummaryInfo, StyledWeekHeader, StyledWeekTitleGrid } from "./ShiftTable.styles";
 import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
 
 type ShiftTableTypeProps = {
@@ -29,20 +29,14 @@ export const ShiftTable: React.FC<ShiftTableTypeProps> = ({
   openEmployeeModal,
 }) => {
   const theme = useTheme();
-  console.log('events sTab', events)
   return (
     <Grid container spacing={0} className="calendar" sx={{ position: 'relative', color: theme.palette.secondary.contrastText }}>
       <StyledWeekTitleGrid item xs={3}>
-        <StyledWeekHeader sx={{
-          height: '100%', display:
-            'flex', alignItems: 'center'
-        }}>
+        <StyledWeekHeader>
           <Typography
             variant="body1"
             align="left"
-            sx={{
-              fontWeight: "600",
-            }}
+            sx={{ fontWeight: "600", }}
           >
             Week:
           </Typography>
@@ -51,48 +45,47 @@ export const ShiftTable: React.FC<ShiftTableTypeProps> = ({
       </StyledWeekTitleGrid>
       {/* week days */}
       {dates.map((date) => {
-        const dayISO = date.toISOString().split("T")[0]; // Format the date to ISO
-        const dailyHours = calculateDailyHours(events, dates)[dayISO] || "0";
-        const uniqueEmployees = countUniqueEmployeesPerDay(events)[dayISO] || 0;
+        // const dailyHours = calculateDailyHours(events, dates)[formatDate(date)] || "0";
+        const dailyEmployees = countUniqueEmployeesPerDay(events)[formatDate(date)] || 0;
         return (
           <StyledDateCellDates item xs={1.28} key={date.toISOString()} >
-            <Box sx={{
-              backgroundColor: isToday(date) ? theme.palette.secondary.light : "transparent",
-              padding: "8px",
-              height: "100%",
-              display: "flex",
-              flexDirection: "column"
+            <StyledDateInfoWrapper sx={{
+              border: ` 2px solid ${isToday(date) ? theme.palette.primary.main : 'transparent'}`
             }}>
-              <Typography variant="subtitle1" align="center" fontWeight="500">
+              <Typography variant="subtitle1" align="center" fontWeight="600">
                 {date.toLocaleDateString("en-GB", { weekday: "short", day: "numeric" })}
               </Typography>
-              <Box sx={{ display: "flex", justifyContent: 'space-around', alignItems: 'center' }}>
+              <StyledDailyHoursWrapper>
                 <Typography variant="subtitle1" align="center" fontWeight="500" fontSize="14px">
-                  {dailyHours} hrs
+                  {/* {dailyHours} hrs */}
+                  0 hrs
                 </Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <PeopleAltOutlinedIcon fontSize="small" />
                   <Typography variant="subtitle1" align="center" fontWeight="500" fontSize="14px" marginLeft='5px'>
-                    {uniqueEmployees}
+                    {dailyEmployees}
                   </Typography>
                 </Box>
-              </Box>
-            </Box>
+              </StyledDailyHoursWrapper>
+            </StyledDateInfoWrapper>
           </StyledDateCellDates>
         )
       })
       }
-      {/* Notes */}
       <Grid item xs={3} sx={{ zIndex: '2' }}>
-        <StyledNotesTitle
-          variant="body1"
-          align="left">
-          Day Notes
-        </StyledNotesTitle>
+        <StyledNoteTitleWrapper>
+          <Typography
+            variant="body1"
+            align="left"
+            sx={{ fontWeight: "600", }}
+          >
+            Day Notes
+          </Typography>
+        </StyledNoteTitleWrapper>
       </Grid>
       {
         dates.map((date) => (
-          <StyledDateCell item xs={1.28} key={`${date.toISOString()}-notes`} >
+          <StyledDateCell item xs={1.28} key={`${date.toISOString()}-notes`} sx={{ height: '65px' }}>
             <StyledNoteInput
               fullWidth
               variant="standard"
@@ -107,15 +100,13 @@ export const ShiftTable: React.FC<ShiftTableTypeProps> = ({
                 disableUnderline: true,
                 sx: {
                   border: 'none',
-                  padding: '0',
+                  padding: '0 0 0 5px',
                 },
               }}
             />
           </StyledDateCell>
         ))
       }
-
-      {/* Estem summary*/}
       <StyledSummaryContainer>
         <StyledSummaryInfo>
           <StyledEstemSummaryText
@@ -137,7 +128,6 @@ export const ShiftTable: React.FC<ShiftTableTypeProps> = ({
             </Typography>
           </Box>
         </StyledSummaryInfo>
-        {/* <Box> */}
         <Button
           variant="contained"
           startIcon={<GroupAddOutlinedIcon />}
@@ -146,30 +136,27 @@ export const ShiftTable: React.FC<ShiftTableTypeProps> = ({
         >
           Add Employee
         </Button>
-        {/* </Box> */}
       </StyledSummaryContainer>
-
-      {/* Employee Rows */}
-      {
-        employees.map((employee) => (
-          <React.Fragment key={employee.id}>
-            <Grid item xs={3}>
-              <StyledNameWrapper>
-                <StyledAvatar>
-                  {getInitials(employee.name)}
-                </StyledAvatar>
-                <StyledNameHourseWrapper>
-                  <Typography variant="body1" fontWeight="600">
-                    {employee.name}
-                  </Typography>
-                  <Typography variant="body2">
-                    {calculateEmployeeHours(employee.id)} hrs
-                  </Typography>
-                </StyledNameHourseWrapper>
-                {/* event cells */}
-              </StyledNameWrapper>
-            </Grid>
-            {dates.map((date) => (
+      {employees.map((employee) => (
+        <React.Fragment key={employee.id}>
+          <Grid item xs={3}>
+            <StyledNameWrapper>
+              <StyledAvatar sx={{ backgroundColor: generateAvatarBgColor(employee.name) }}>
+                {getInitials(employee.name)}
+              </StyledAvatar>
+              <StyledNameHourseWrapper>
+                <Typography variant="body1" fontWeight="600">
+                  {employee.name}
+                </Typography>
+                <Typography variant="body2">
+                  {calculateEmployeeHours(employee.id)} hrs
+                </Typography>
+              </StyledNameHourseWrapper>
+              {/* event cells */}
+            </StyledNameWrapper>
+          </Grid>
+          {
+            dates.map((date) => (
               <StyledEventCell
                 item
                 xs={1.28}
@@ -184,15 +171,26 @@ export const ShiftTable: React.FC<ShiftTableTypeProps> = ({
                   )
                   .map((event) => (
                     <StyledEventTitleWrapper
+                      sx={{
+                        borderLeft: `${formatDate(date) === formatDate(event.startDate) ? '5px solid #fff' : 'none'}`,
+                        borderTopLeftRadius: `${formatDate(date) === formatDate(event.startDate) ? '10px' : 'none'}`,
+                        borderBottomLeftRadius: `${formatDate(date) === formatDate(event.startDate) ? '10px' : 'none'}`,
+                      }}
                       key={event.id}>
-                      {event.title}
+                      <Typography fontSize='12px' textAlign='left'>
+                        {formatDate(date) === formatDate(event.startDate) ? event.title : ''}
+                      </Typography>
+                      <Typography fontSize='12px'>
+                        {formatDate(date) === formatDate(event.startDate) ?
+                          getEventRange(event.startDate, event.endDate)
+                          : ''}
+                      </Typography>
                     </StyledEventTitleWrapper>
                   ))}
               </StyledEventCell>
             ))}
-          </React.Fragment>
-        ))
-      }
+        </React.Fragment>
+      ))}
     </Grid >
 
   )

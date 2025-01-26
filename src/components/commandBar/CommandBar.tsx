@@ -1,9 +1,9 @@
-import { Box, Button, FormControl, IconButton, MenuItem, Select, Stack, Typography } from "@mui/material";
+import { Box, IconButton, MenuItem, Select, Typography } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { StyledContainer } from "./CommandBar.styles";
+import { StyledContainer, StyledFormControl, StyledIconWrapper, StyledStackLeft, StyledStackRight, StyledTodayButton } from "./CommandBar.styles";
 import { useState } from "react";
 import LocalPrintshopOutlinedIcon from '@mui/icons-material/LocalPrintshopOutlined';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -36,15 +36,14 @@ export const CommandBar: React.FC<WeekSelectorTypeProps> = ({
   <>
    <LocalizationProvider dateAdapter={AdapterDateFns}>
     <StyledContainer>
-     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-      <Button
+     <StyledStackLeft direction="row" spacing={2}>
+      <StyledTodayButton
        variant="contained"
        color="primary"
        onClick={handleTodayButtonClick}
-       sx={{ marginRight: '20px', height: '36px', paddingRight: '40px', paddingLeft: '40px' }}
       >
        Today
-      </Button>
+      </StyledTodayButton>
       <Box sx={{ display: 'flex', marginRight: '20px' }}>
        <IconButton onClick={handlePrevWeek} aria-label="Next week">
         <ArrowBackIosIcon />
@@ -59,22 +58,12 @@ export const CommandBar: React.FC<WeekSelectorTypeProps> = ({
        value={selectedDate}
        onChange={(newDate) => newDate && setSelectedDate(newDate)}
       />
-     </Box>
-     <Stack direction="row" spacing={2}>
-      <FormControl
-       variant="standard"
-       size="small"
-       sx={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '100px',
-        marginRight: '10px',
-       }}
-      >
-       <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '8px' }}>
+     </StyledStackLeft>
+     <StyledStackRight direction="row" spacing={2}>
+      <StyledFormControl variant="standard" size="small">
+       <StyledIconWrapper>
         <LocalPrintshopOutlinedIcon fontSize="small" />
-       </Box>
+       </StyledIconWrapper>
        <Select
         value={tableView}
         onChange={(e) => setTableView(e.target.value)}
@@ -87,21 +76,14 @@ export const CommandBar: React.FC<WeekSelectorTypeProps> = ({
          <Typography>Month</Typography>
         </MenuItem>
        </Select>
-      </FormControl>
-      <FormControl
+      </StyledFormControl>
+      <StyledFormControl
        variant="standard"
        size="small"
-       sx={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '100px',
-        marginRight: '10px',
-       }}
       >
-       <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '8px' }}>
+       <StyledIconWrapper>
         <CalendarMonthIcon fontSize="small" />
-       </Box>
+       </StyledIconWrapper>
        <Select
         value={printOption}
         onChange={(e) => setPrintOption(e.target.value)}
@@ -111,21 +93,14 @@ export const CommandBar: React.FC<WeekSelectorTypeProps> = ({
         <MenuItem value="scale">Scale</MenuItem>
         <MenuItem value="help">Help</MenuItem>
        </Select>
-      </FormControl>
-      <FormControl
+      </StyledFormControl>
+      <StyledFormControl
        variant="standard"
        size="small"
-       sx={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '100px',
-        marginRight: '10px',
-       }}
       >
-       <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '8px' }}>
+       <StyledIconWrapper>
         <FilterAltOutlinedIcon fontSize="small" />
-       </Box>
+       </StyledIconWrapper>
        <Select
         value={filter}
         onChange={(e) => setFilter(e.target.value)}
@@ -136,21 +111,13 @@ export const CommandBar: React.FC<WeekSelectorTypeProps> = ({
         <MenuItem value="active">All active</MenuItem>
         <MenuItem value="conflicts">Conflicts</MenuItem>
        </Select>
-      </FormControl>
-      <FormControl
+      </StyledFormControl>
+      <StyledFormControl
        variant="standard"
-       size="small"
-       sx={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '100px',
-        marginRight: '10px',
-       }}
-      >
-       <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '8px' }}>
+       size="small" >
+       <StyledIconWrapper>
         <PreviewOutlinedIcon fontSize="small" />
-       </Box>
+       </StyledIconWrapper>
        <Select
         value={view}
         onChange={(e) => setView(e.target.value)}
@@ -160,8 +127,8 @@ export const CommandBar: React.FC<WeekSelectorTypeProps> = ({
         <MenuItem value="ownShifts">Your shifts</MenuItem>
         <MenuItem value="teamShifts">Team shifts</MenuItem>
        </Select>
-      </FormControl>
-     </Stack>
+      </StyledFormControl>
+     </StyledStackRight>
 
     </StyledContainer>
    </LocalizationProvider>

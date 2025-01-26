@@ -29,7 +29,6 @@ const ShiftCalendar: React.FC = () => {
   });
 
   const openEventDialog = (employee: EmployeeType, date: Date) => {
-    console.log('formatDate(date)', formatDate(date))
     setEventDialog({
       open: true,
       title: "",

@@ -28,7 +28,7 @@ export const StyledTextEstem = styled(Typography)(({ theme }) => ({
  color: theme.palette.primary.main
 }))
 
-export const StyledTextEstemWrapper = styled(Typography)(() => ({
+export const StyledTextEstemWrapper = styled(Box)(() => ({
  margin: '0 30px 0 15px'
 }))
 

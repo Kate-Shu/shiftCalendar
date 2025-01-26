@@ -1,4 +1,5 @@
 import { EventType } from "@/types/AppType";
+import { formatDate } from "./dateUtils";
 
 export const getInitials = (name: string): string => {
  const nameParts = name.split(" ");
@@ -6,65 +7,43 @@ export const getInitials = (name: string): string => {
  return initials;
 };
 
- export const calculateHours = (events: EventType[], weekDays?: Date[]) => ({
-  day: () => {
-   return events
-     .filter((event) => new Date(event.startDate).toISOString().split('T')[0] === new Date(event.endDate).toISOString().split('T')[0])
-     .reduce((total, event) => total + Number(event.hours), 0);
-  },
-  week: () => {
-   if(weekDays){
-   return events
-   .filter(
-     (event) =>
-       event.startDate >= weekDays[0] &&
-       event.endDate <= weekDays[6] &&
-       event.title.toLowerCase() !== "vocation" &&
-       event.title.toLowerCase() !== "sick leave"
-   )
-   .reduce((total, event) => total + Number(event.hours), 0);
-  }
-  }
- })
-
+ // calculateDailyHours should be checked and refactored
  export const calculateDailyHours = (events: EventType[], weekDays: Date[]): Record<string, string> => {
   return weekDays.reduce((acc, day) => {
-    const dayISO = day.toISOString().split("T")[0]; // Format the day as YYYY-MM-DD
     const totalHours = events
       .filter(
         (event) =>
-          new Date(event.startDate).toISOString().split("T")[0] === dayISO || // Event starts on this day
-          new Date(event.endDate).toISOString().split("T")[0] === dayISO // Event ends on this day
+          formatDate(new Date(event.startDate)) === formatDate(day) || 
+          formatDate(new Date(event.endDate)) === formatDate(day)
       )
       .reduce((total, event) => total + Number(event.hours), 0);
-    acc[dayISO] = totalHours.toString(); // Store the hours as a string for the day
+    acc[formatDate(day)] = totalHours.toString(); 
     return acc;
   }, {} as Record<string, string>);
 };
-
+ // countUniqueEmployeesPerDay should be checked
 export const countUniqueEmployeesPerDay = (events: EventType[]): Record<string, number> => {
   const employeeCounts: Record<string, Set<string>> = {};
-
   events.forEach((event) => {
     const start = new Date(event.startDate);
     const end = new Date(event.endDate);
     const current = new Date(start);
-
     while (current <= end) {
-      const dayISO = current.toISOString().split("T")[0];
-      if (!employeeCounts[dayISO]) {
-        employeeCounts[dayISO] = new Set();
+      if (!employeeCounts[formatDate(current)]) {
+        employeeCounts[formatDate(current)] = new Set();
       }
-      employeeCounts[dayISO].add(event.employeeId);
+      employeeCounts[formatDate(current)].add(event.employeeId);
       current.setDate(current.getDate() + 1);
     }
   });
-
-  // Convert Set sizes to numbers
   const result: Record<string, number> = {};
   Object.keys(employeeCounts).forEach((day) => {
     result[day] = employeeCounts[day].size;
   });
-
   return result;
+};
+
+export const generateAvatarBgColor = (string: string): string => {
+  const hash = Array.from(string).reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return `hsl(${hash % 360}, 70%, 60%)`;
 };
