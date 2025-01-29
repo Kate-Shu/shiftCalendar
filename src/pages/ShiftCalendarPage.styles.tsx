@@ -5,5 +5,7 @@ export const StyledContainer = styled(Box)(() => ({
  backgroundColor: '#f4f1f0',
  zIndex: 2,
  position: "relative",
- paddingTop: '15px'
+ paddingTop: '15px',
+ maxWidth: '100%'
+
 }))

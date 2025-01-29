@@ -1,21 +1,29 @@
-import { startOfWeek, addDays, format} from "date-fns";
+import { startOfWeek, addDays, format, startOfMonth, endOfMonth, eachDayOfInterval} from "date-fns";
 
 export const generateWeekDates = (selectedDate: Date): Date[] => {
  const startDate = startOfWeek(selectedDate, { weekStartsOn: 1 }); // Start from Monday
  return Array.from({ length: 7 }, (_, i) => addDays(startDate, i));
 };
 
+ export const generateMonthDates = (date: Date) => {
+  const start = startOfMonth(date); // First day of the month
+  const end = endOfMonth(date); // Last day of the month
+  return eachDayOfInterval({ start, end }); // Array of dates within the month
+ };
+
 // Calculate Monday and Sunday of the current week
-export const getWeekRange = (date: Date): string => {
+export const getRange = (date: Date, tableView: string): string => {
  const monday = startOfWeek(date, { weekStartsOn: 1 });
  const sunday = addDays(monday, 6);
  const start = format(monday, "d MMMM yyyy");
  const end = format(sunday, "d MMMM yyyy");
  // If the months are the same, avoid repeating the month name
+ if(tableView === 'week') {
  if (monday.getMonth() === sunday.getMonth()) {
    return `${monday.getDate()} - ${format(sunday, "d MMMM yyyy")}`;
  }
  return `${start} - ${end}`;
+} else return format(date, "MMMM yyyy")
 };
 
  export const getEventRange = (startDay: Date, endDay: Date): string => {
@@ -53,3 +61,6 @@ export const isSameOrBetweenDates = (currentDate: Date, startDate: Date, endDate
 export const formatDate = (date: Date): string => {
  return format(date, 'yyyy-MM-dd');
 };
+
+export const eventDuration = (eventStart: Date, eventEnd: Date): number => 
+  (new Date(eventEnd).getTime() - new Date(eventStart).getTime()) / (1000 * 60 * 60 * 24) + 1; 
