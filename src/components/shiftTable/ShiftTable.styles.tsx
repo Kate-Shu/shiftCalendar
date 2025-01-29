@@ -1,5 +1,5 @@
 import { styled } from '@mui/material';
-import { Box, Grid, Typography, TextField, Avatar } from '@mui/material';
+import { Box, Grid2, Typography, TextField, Avatar } from '@mui/material';
 
 export const StyledWeekHeader = styled(Box)(({ theme }) => ({
  height: '100%',
@@ -11,13 +11,24 @@ export const StyledWeekHeader = styled(Box)(({ theme }) => ({
  backgroundColor: theme.palette.background.default
 }));
 
-export const StyledWeekTitleGrid = styled(Grid)(() => ({
+export const StyledTitleGrid = styled(Grid2)(() => ({
  position: "sticky",
  top: 0,
  zIndex: 3,
 }));
 
-export const StyledDateCellDates = styled(Grid)(({ theme }) => ({
+export const StyledDateCellDates = styled(Grid2)(({ theme }) => ({
+ border: '1px solid #ddd',
+ position: "sticky",
+ top: 0,
+ zIndex: 5,
+ '&:hover': {
+  backgroundColor: theme.palette.action.hover,
+ },
+ backgroundColor: theme.palette.background.default,
+}));
+
+export const StyledDateCellMonthDates = styled(Grid2)(({ theme }) => ({
  border: '1px solid #ddd',
  position: "sticky",
  top: 0,
@@ -26,9 +37,12 @@ export const StyledDateCellDates = styled(Grid)(({ theme }) => ({
   backgroundColor: theme.palette.action.hover,
  },
  backgroundColor: theme.palette.background.default,
+ display: "flex",
+ justifyContent: 'center',
+ alignItems: 'center'
 }));
 
-export const StyledDateCell = styled(Grid)(({ theme }) => ({
+export const StyledDateCell = styled(Grid2)(({ theme }) => ({
  border: '1px solid #ddd',
  position: "sticky",
  top: 0,
@@ -46,12 +60,15 @@ export const StyledNoteTitleWrapper = styled(Box)(({ theme }) => ({
  backgroundColor: theme.palette.background.default
 }));
 
-export const StyledNoteInput = styled(TextField)(() => ({
+export const StyledNoteInput = styled(TextField)(({ theme }) => ({
  height: '100%',
  justifyContent: 'center',
  backgroundColor: 'transparent',
  border: 'none',
  transition: 'background-color 0.3s ease',
+ '&:hover': {
+  backgroundColor: theme.palette.action.hover,
+ },
  '& .MuiInputBase-input': {
   padding: 0,
  },
@@ -59,7 +76,7 @@ export const StyledNoteInput = styled(TextField)(() => ({
 
 export const StyledSummaryContainer = styled(Box)(() => ({
  width: '100%',
- padding: '30px 0px 30px 0px',
+ padding: '2rem 3rem',
  display: 'flex',
  justifyContent: 'space-between',
  alignItems: 'center',
@@ -92,7 +109,6 @@ export const StyledEmployeesSummaryText = styled(Typography)(() => ({
 
 export const StyledHoursText = styled(Typography)(() => ({
  fontWeight: 'light',
- fontSize: '16px',
  lineHeight: '24px',
  marginLeft: '5px'
 }));
@@ -107,7 +123,7 @@ export const StyledNameWrapper = styled(Box)(() => ({
 
 export const StyledAvatar = styled(Avatar)(() => ({
  color: 'white',
- marginRight: '7px',
+ marginRight: '10px',
 }));
 
 export const StyledNameHourseWrapper = styled(Box)(() => ({
@@ -115,7 +131,7 @@ export const StyledNameHourseWrapper = styled(Box)(() => ({
  flexDirection: "column",
 }));
 
-export const StyledEventCell = styled(Grid)(({ theme }) => ({
+export const StyledEventCell = styled(Grid2)(({ theme }) => ({
  border: "1px solid #ddd",
  textAlign: "left",
  cursor: "pointer",
@@ -136,15 +152,16 @@ export const StyledEventTitleWrapper = styled(Box)(({ theme }) => ({
  flexDirection: 'column',
  justifyContent: 'flex-start',
  alignItems: 'start',
- paddingLeft: '5px'
+ paddingLeft: '5px',
+
 }));
 
 export const StyledDateInfoWrapper = styled(Box)(() => ({
- padding: "8px",
  height: "100%",
  display: "flex",
  flexDirection: "column"
 }));
+
 export const StyledDailyHoursWrapper = styled(Box)(() => ({
  display: "flex",
  justifyContent: 'space-around',

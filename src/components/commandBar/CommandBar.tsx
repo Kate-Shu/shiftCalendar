@@ -10,24 +10,27 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import PreviewOutlinedIcon from '@mui/icons-material/PreviewOutlined';
 
-type WeekSelectorTypeProps = {
+type CommandBarTypeProps = {
  selectedDate: Date;
  setSelectedDate: (date: Date) => void;
- getWeekRange: (date: Date) => string;
+ getRange: (date: Date, tableView: string) => string;
  handleTodayButtonClick: () => void;
- handlePrevWeek: () => void;
- handleNextWeek: () => void;
+ handlePrev: () => void;
+ handleNext: () => void;
+ tableView: string;
+ setTableView: React.Dispatch<React.SetStateAction<string>>;
 }
-export const CommandBar: React.FC<WeekSelectorTypeProps> = ({
+export const CommandBar: React.FC<CommandBarTypeProps> = ({
  selectedDate,
  setSelectedDate,
- getWeekRange,
+ getRange,
  handleTodayButtonClick,
- handlePrevWeek,
- handleNextWeek,
+ handlePrev,
+ handleNext,
+ tableView,
+ setTableView,
 }) => {
 
- const [tableView, setTableView] = useState('week');
  const [printOption, setPrintOption] = useState('print');
  const [filter, setFilter] = useState('filter');
  const [view, setView] = useState('view');
@@ -45,25 +48,27 @@ export const CommandBar: React.FC<WeekSelectorTypeProps> = ({
        Today
       </StyledTodayButton>
       <Box sx={{ display: 'flex', marginRight: '20px' }}>
-       <IconButton onClick={handlePrevWeek} aria-label="Next week">
+       <IconButton onClick={handlePrev} aria-label="Next week">
         <ArrowBackIosIcon />
        </IconButton>
-       <IconButton onClick={handleNextWeek} aria-label="Previous week">
+       <IconButton onClick={handleNext} aria-label="Previous week">
         <ArrowForwardIosIcon />
        </IconButton>
       </Box>
 
       <DatePicker
-       label={getWeekRange(selectedDate)}
+       label={getRange(selectedDate, tableView)}
        value={selectedDate}
        onChange={(newDate) => newDate && setSelectedDate(newDate)}
       />
      </StyledStackLeft>
+
      <StyledStackRight direction="row" spacing={2}>
       <StyledFormControl variant="standard" size="small">
        <StyledIconWrapper>
-        <LocalPrintshopOutlinedIcon fontSize="small" />
+        <CalendarMonthIcon fontSize="small" />
        </StyledIconWrapper>
+
        <Select
         value={tableView}
         onChange={(e) => setTableView(e.target.value)}
@@ -76,13 +81,15 @@ export const CommandBar: React.FC<WeekSelectorTypeProps> = ({
          <Typography>Month</Typography>
         </MenuItem>
        </Select>
+
       </StyledFormControl>
+
       <StyledFormControl
        variant="standard"
        size="small"
       >
        <StyledIconWrapper>
-        <CalendarMonthIcon fontSize="small" />
+        <LocalPrintshopOutlinedIcon fontSize="small" />
        </StyledIconWrapper>
        <Select
         value={printOption}

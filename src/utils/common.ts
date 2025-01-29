@@ -47,3 +47,13 @@ export const generateAvatarBgColor = (string: string): string => {
   const hash = Array.from(string).reduce((acc, char) => acc + char.charCodeAt(0), 0);
   return `hsl(${hash % 360}, 70%, 60%)`;
 };
+
+export const getXsValue = (daysInMonth: number) => { 
+  if (daysInMonth === 28) {
+    return 0.35
+  } else if (daysInMonth === 29) {
+    return 0.34
+  } else if (daysInMonth === 30) {
+    return 0.33
+  } else return 0.32
+}
