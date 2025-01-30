@@ -98,7 +98,6 @@ const ShiftCalendar: React.FC = () => {
       )
       .reduce((total, event) => total + Number(event.hours), 0);
   };
-  console.log('calculateWeeklyHours', calculateWeeklyHours())
 
   const handleNoteChange = (date: Date, value: string) => {
     const formattedDate = date.toISOString().split("T")[0];

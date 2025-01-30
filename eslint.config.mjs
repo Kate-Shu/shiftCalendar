@@ -35,20 +35,16 @@ export default [
       globals: {
         ...globals.browser,
       },
-
       parser: tsParser,
     },
-
     rules: {
       '@typescript-eslint/no-explicit-any': 'warn',
-
       'react-refresh/only-export-components': [
         'warn',
         {
           allowConstantExport: true,
         },
       ],
-
       'prettier/prettier': [
         'error',
         {
