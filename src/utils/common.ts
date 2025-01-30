@@ -7,7 +7,6 @@ export const getInitials = (name: string): string => {
  return initials;
 };
 
- // calculateDailyHours should be checked and refactored
  export const calculateDailyHours = (events: EventType[], weekDays: Date[]): Record<string, string> => {
   return weekDays.reduce((acc, day) => {
     const totalHours = events
@@ -21,7 +20,7 @@ export const getInitials = (name: string): string => {
     return acc;
   }, {} as Record<string, string>);
 };
- // countUniqueEmployeesPerDay should be checked
+
 export const countUniqueEmployeesPerDay = (events: EventType[]): Record<string, number> => {
   const employeeCounts: Record<string, Set<string>> = {};
   events.forEach((event) => {

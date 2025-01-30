@@ -77,6 +77,7 @@ export const ShiftTable: React.FC<ShiftTableTypeProps> = ({
       </StyledTitleGrid>
       {
         dates.map((date) => {
+          // TODO uncomment when details of dailyHours are clatified
           // const dailyHours = calculateDailyHours(events, dates)[formatDate(date)] || "0";
           const dailyEmployees = countUniqueEmployeesPerDay(events)[formatDate(date)] || 0;
           return (
@@ -231,79 +232,81 @@ export const ShiftTable: React.FC<ShiftTableTypeProps> = ({
       })
       }
       {
-        employees.map((employee) => (
-          <React.Fragment key={employee.id}>
-            <Grid2 size={{ xs: week ? 3 : 2 }}>
-              <StyledNameWrapper>
-                <StyledAvatar sx={{ backgroundColor: generateAvatarBgColor(employee.name) }}>
-                  {getInitials(employee.name)}
-                </StyledAvatar>
-                <StyledNameHourseWrapper>
-                  <Typography variant={week ? 'body1' : 'body2'} fontWeight="600">
-                    {employee.name}
-                  </Typography>
-                  <Typography variant="body2">
-                    {calculateEmployeeHours(employee.id)} hrs
-                  </Typography>
-                </StyledNameHourseWrapper>
-              </StyledNameWrapper>
-            </Grid2>
-            {
-              dates.map((date) => (
-                <StyledEventCell
-                  size={{ xs: xsValueDayCells }}
-                  key={`${employee.id}-${date.toISOString()}`}
-                  onClick={() => onOpenEventDialog(employee, date)}
-                >
-                  {events
-                    .filter(
-                      (event) =>
-                        event.employeeId === employee.id &&
-                        isSameOrBetweenDates(date, event.startDate, event.endDate)
-                    )
-                    .map((event) => {
-                      const widthEventTitleAndDate = eventDuration(event.startDate, event.endDate) * xsValueDayCells * 100
-                      return (
-                        <StyledEventTitleWrapper
-                          key={event.id}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleOpenEventPopperClick(event, employee, e.currentTarget)
-                          }
-                          }
-                          sx={{
-                            borderLeft: `${isFirstEventDay(date, event.startDate) ? '5px solid #fff' : 'none'}`,
-                            borderTopLeftRadius: `${isFirstEventDay(date, event.startDate) ? '10px' : 'none'}`,
-                            borderBottomLeftRadius: `${isFirstEventDay(date, event.startDate) ? '10px' : 'none'}`,
-                          }}
-                        >
-                          <Typography fontSize='12px' textAlign='left' sx={{
-                            overflow: 'hidden', // Prevent content overflow
-                            textOverflow: 'ellipsis', // Add ellipsis for overflowed content
-                            whiteSpace: 'nowrap', // Prevent text from wrapping
-                            zIndex: 10,
-                            width: widthEventTitleAndDate,
-                          }}>
-                            {isFirstEventDay(date, event.startDate) ? event.title : ''}
-                          </Typography>
-                          <Typography fontSize='12px' sx={{
-                            overflow: 'hidden', // Prevent content overflow
-                            textOverflow: 'ellipsis', // Add ellipsis for overflowed content
-                            whiteSpace: 'nowrap', // Prevent text from wrapping
-                            zIndex: 10,
-                            width: widthEventTitleAndDate,
-                          }}>
-                            {isFirstEventDay(date, event.startDate) ?
-                              getEventRange(event.startDate, event.endDate)
-                              : ''}
-                          </Typography>
-                        </StyledEventTitleWrapper>
+        employees.map((employee) => {
+          return (
+            <React.Fragment key={employee.id}>
+              <Grid2 size={{ xs: week ? 3 : 2 }}>
+                <StyledNameWrapper>
+                  <StyledAvatar sx={{ backgroundColor: generateAvatarBgColor(employee.name) }}>
+                    {getInitials(employee.name)}
+                  </StyledAvatar>
+                  <StyledNameHourseWrapper>
+                    <Typography variant={week ? 'body1' : 'body2'} fontWeight="600">
+                      {employee.name}
+                    </Typography>
+                    <Typography variant="body2">
+                      {calculateEmployeeHours(employee.id)} hrs
+                    </Typography>
+                  </StyledNameHourseWrapper>
+                </StyledNameWrapper>
+              </Grid2>
+              {
+                dates.map((date) => (
+                  <StyledEventCell
+                    size={{ xs: xsValueDayCells }}
+                    key={`${employee.id}-${date.toISOString()}`}
+                    onClick={() => onOpenEventDialog(employee, date)}
+                  >
+                    {events
+                      .filter(
+                        (event) =>
+                          event.employeeId === employee.id &&
+                          isSameOrBetweenDates(date, event.startDate, event.endDate)
                       )
-                    })}
-                </StyledEventCell>
-              ))}
-          </React.Fragment>
-        ))
+                      .map((event) => {
+                        const widthEventTitleAndDate = eventDuration(event.startDate, event.endDate) * xsValueDayCells * 100
+                        return (
+                          <StyledEventTitleWrapper
+                            key={event.id}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleOpenEventPopperClick(event, employee, e.currentTarget)
+                            }
+                            }
+                            sx={{
+                              borderLeft: `${isFirstEventDay(date, event.startDate) ? '5px solid #fff' : 'none'}`,
+                              borderTopLeftRadius: `${isFirstEventDay(date, event.startDate) ? '10px' : 'none'}`,
+                              borderBottomLeftRadius: `${isFirstEventDay(date, event.startDate) ? '10px' : 'none'}`,
+                            }}
+                          >
+                            <Typography fontSize='12px' textAlign='left' sx={{
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              whiteSpace: 'nowrap',
+                              zIndex: 10,
+                              width: widthEventTitleAndDate,
+                            }}>
+                              {isFirstEventDay(date, event.startDate) ? event.title : ''}
+                            </Typography>
+                            <Typography fontSize='12px' sx={{
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              whiteSpace: 'nowrap',
+                              zIndex: 10,
+                              width: widthEventTitleAndDate,
+                            }}>
+                              {isFirstEventDay(date, event.startDate) ?
+                                getEventRange(event.startDate, event.endDate)
+                                : ''}
+                            </Typography>
+                          </StyledEventTitleWrapper>
+                        )
+                      })}
+                  </StyledEventCell>
+                ))}
+            </React.Fragment>
+          )
+        })
       }
       {
         selectedEvent && selectedEmployee && (

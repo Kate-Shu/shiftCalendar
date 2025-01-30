@@ -12,10 +12,10 @@ export default defineConfig({
   },
   source: {
     transformImport: [
-      // {
-      //   libraryName: '@mui/icons-material',
-      //   customName: '@mui/icons-material/{{ member }}',
-      // },
+      {
+        libraryName: '@mui/icons-material',
+        customName: '@mui/icons-material/{{ member }}',
+      },
       {
         libraryName: 'lodash',
         customName: 'lodash/{{ member }}',

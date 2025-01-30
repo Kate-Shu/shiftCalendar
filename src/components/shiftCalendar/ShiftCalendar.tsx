@@ -15,10 +15,6 @@ const ShiftCalendar: React.FC = () => {
   const [events, setEvents] = useState<EventType[]>([]);
   const [employees, setEmployees] = useState<EmployeeType[]>(employeesMock);
   const [openEmployeeModal, setEmployeeModalOpen] = useState(false);
-
-  // 
-  // setSelectedDate defined in datePicker in CommandBar
-  // 
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   // @ts-ignore
   const [dayNotes, setDayNotes] = useState<{ [date: string]: string }>({});
@@ -31,12 +27,6 @@ const ShiftCalendar: React.FC = () => {
     startDate: "",
     endDate: "",
     hours: '',
-    //////////////////////
-    // selectedEmployee= {
-    //     id: string;
-    //     name: string;
-    // }
-    //
     selectedEmployee: null as EmployeeType | null,
   });
 
@@ -56,16 +46,6 @@ const ShiftCalendar: React.FC = () => {
     if (selectedEmployee && title && startDate && endDate && hours) {
       const startDateObj = new Date(startDate);
       const endDateObj = new Date(endDate);
-      //////////////
-      //   type EventType = {
-      //     id: string;  // // id: 1-10/01/2025 : selectEmplId-date
-      //     employeeId: string;
-      //     startDate: Date; // take from eventDialog
-      //     endDate: Date;   // take from eventDialog
-      //     title: string;
-      //     hours: string;
-      // }
-      //
       setEvents((prev) => [
         ...prev,
         {
@@ -82,10 +62,6 @@ const ShiftCalendar: React.FC = () => {
     }
   };
 
-  // 
-  // const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  //   const date = new Date('2023-01-15'); // 15 января 2023
-  // const newDate = subWeeks(date, 1);   // 8 января 2023
   const handlePrev = () => {
     tableView === 'week' ?
       setSelectedDate((prevDate) => subWeeks(prevDate, 1)) :
@@ -97,7 +73,7 @@ const ShiftCalendar: React.FC = () => {
       setSelectedDate((prevDate) => addMonths(prevDate, 1))
   };
   const handleTodayButtonClick = () => {
-    setSelectedDate(new Date()); // Reset to today's date
+    setSelectedDate(new Date());
   };
 
   const calculateWeeklyHours = () => {
@@ -105,26 +81,27 @@ const ShiftCalendar: React.FC = () => {
       .filter(
         (event) =>
           event.startDate >= weekDays[0] &&
-          event.endDate <= weekDays[6] &&
+          event.endDate <= weekDays[weekDays.length - 1] &&
           event.title.toLowerCase() !== "vocation" &&
           event.title.toLowerCase() !== "sick leave"
       )
       .reduce((total, event) => total + Number(event.hours), 0);
   };
-  // Calculate total hours for all events for a specific employee in the week
+
   const calculateEmployeeHours = (employeeId: string): number => {
     return events
       .filter(
         (event) =>
           event.employeeId === employeeId &&
           event.startDate >= weekDays[0] &&
-          event.endDate <= weekDays[6]
+          event.endDate <= weekDays[weekDays.length - 1]
       )
       .reduce((total, event) => total + Number(event.hours), 0);
   };
+  console.log('calculateWeeklyHours', calculateWeeklyHours())
 
   const handleNoteChange = (date: Date, value: string) => {
-    const formattedDate = date.toISOString().split("T")[0]; // Format date as YYYY-MM-DD
+    const formattedDate = date.toISOString().split("T")[0];
     setDayNotes((prevNotes) => ({
       ...prevNotes,
       [formattedDate]: value,
@@ -139,8 +116,8 @@ const ShiftCalendar: React.FC = () => {
         handleTodayButtonClick={handleTodayButtonClick}
         handlePrev={handlePrev}
         handleNext={handleNext}
-        tableView={tableView} // Pass tableView to CommandBar
-        setTableView={setTableView} // Pass setTableView to CommandBar
+        tableView={tableView}
+        setTableView={setTableView}
       />
       <ShiftTable
         dates={weekDays}
