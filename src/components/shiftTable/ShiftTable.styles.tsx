@@ -1,6 +1,12 @@
 import { styled } from '@mui/material';
 import { Box, Grid2, Typography, TextField, Avatar } from '@mui/material';
 
+type StyledDateTypographyProps = {
+ week?: boolean;
+ firstEventDay?: boolean;
+ widthEventTitleAndDate?: number;
+}
+
 export const StyledWeekHeader = styled(Box)(({ theme }) => ({
  height: '100%',
  display: 'flex',
@@ -142,7 +148,9 @@ export const StyledEventCell = styled(Grid2)(({ theme }) => ({
  },
 }));
 
-export const StyledEventTitleWrapper = styled(Box)(({ theme }) => ({
+export const StyledEventTitleWrapper = styled(Box, {
+ shouldForwardProp: (prop) => prop !== 'firstEventDay',
+})<StyledDateTypographyProps>(({ theme, firstEventDay }) => ({
  backgroundColor: '#ddd',
  color: theme.palette.secondary.contrastText,
  fontSize: "12px",
@@ -153,7 +161,9 @@ export const StyledEventTitleWrapper = styled(Box)(({ theme }) => ({
  justifyContent: 'flex-start',
  alignItems: 'start',
  paddingLeft: '5px',
-
+ borderLeft: firstEventDay ? '5px solid #fff' : 'none',
+ borderTopLeftRadius: firstEventDay ? '10px' : 'none',
+ borderBottomLeftRadius: firstEventDay ? '10px' : 'none'
 }));
 
 export const StyledDateInfoWrapper = styled(Box)(() => ({
@@ -167,3 +177,26 @@ export const StyledDailyHoursWrapper = styled(Box)(() => ({
  justifyContent: 'space-around',
  alignItems: 'center'
 }))
+
+export const StyledDateTypography = styled(Typography, {
+ shouldForwardProp: (prop) => prop !== 'week',
+})<StyledDateTypographyProps>(({ theme, week }) => ({
+ fontSize: '15px',
+ [theme.breakpoints.down('xl')]: {
+  fontSize: !week && '13px'
+ },
+ [theme.breakpoints.down('md')]: {
+  fontSize: !week && '11px'
+ },
+}))
+
+export const StyledEventTitleAndDate = styled(Typography, {
+ shouldForwardProp: (prop) => prop !== 'widthEventTitleAndDate',
+})<StyledDateTypographyProps>(({ widthEventTitleAndDate }) => ({
+ overflow: 'hidden',
+ textOverflow: 'ellipsis',
+ whiteSpace: 'nowrap',
+ zIndex: 10,
+ width: widthEventTitleAndDate,
+ fontSize: '12px',
+}));

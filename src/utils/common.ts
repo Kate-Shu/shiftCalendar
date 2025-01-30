@@ -56,3 +56,5 @@ export const getXsValue = (daysInMonth: number) => {
     return 0.33
   } else return 0.32
 }
+
+export const isFirstEventDay = (date: Date, startDate: Date) => formatDate(date) === formatDate(startDate)
