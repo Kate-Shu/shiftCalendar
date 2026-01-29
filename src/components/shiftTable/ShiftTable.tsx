@@ -178,7 +178,7 @@ export const ShiftTable: React.FC<ShiftTableTypeProps> = ({
           <StyledEstemSummaryText
             variant="body1"
             align="left">
-            estem
+            SoftBridge
           </StyledEstemSummaryText>
           <StyledHoursSummaryText
             variant="body1"
