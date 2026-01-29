@@ -26,7 +26,7 @@ export default defineConfig({
     polyfill: 'usage',
     cleanDistPath: true,
     legalComments: 'none',
-    assetPrefix: 'auto',
+    assetPrefix: '/shiftCalendar/',
   },
   plugins: [
     pluginReact(),
