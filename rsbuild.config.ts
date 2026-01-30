@@ -26,7 +26,6 @@ export default defineConfig({
     polyfill: 'usage',
     cleanDistPath: true,
     legalComments: 'none',
-    assetPrefix: 'auto',
   },
   plugins: [
     pluginReact(),
