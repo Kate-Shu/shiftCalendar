@@ -10,9 +10,7 @@
     "build": "rsbuild build",
     "preview": "rsbuild preview",
     "lint": "eslint . --quiet",
-    "format": "eslint . --fix",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "format": "eslint . --fix"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
